@@ -1,8 +1,6 @@
 {
   "dependencies": {
-    "edit-google-spreadsheet": "^0.2.16",
     "express": "^4.12.4",
-    "google-spreadsheet": "~0.3.1",
     "node-dht-sensor": "~0.0.8",
     "onoff": "~1.0.2",
     "pi-blaster.js": "git+https://github.com/stefanomasini/pi-blaster.js.git",
