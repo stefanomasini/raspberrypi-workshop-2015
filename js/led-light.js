@@ -35,12 +35,16 @@ var startLEDLight = function (setLED) {
     return {
         blinkForAWhile: function (mode) {
             blinkingMode = mode;
+            startTime = new Date().getTime();
             setTimeout(function () {
                 blinkingMode = null;
             }, TRIGGERED_BLINKING_DURATION_IN_MS);
         },
         setBlinking: function (mode) {
             blinkingMode = mode;
+            if (mode !== null) {
+                startTime = new Date().getTime();
+            }
         }
     };
 };
