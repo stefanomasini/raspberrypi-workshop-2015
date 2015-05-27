@@ -10,7 +10,7 @@
         }
     };
 
-    // -- JQuery buttons configuration ------------
+    // -- JQuery input configuration ------------
 
     $('.led-button').mousedown(function () {
         sendMessage({event: 'web-button-down'});
@@ -20,6 +20,17 @@
 
     $('.temperature-button').click(function () {
         sendMessage({event: 'read-humidity'});
+    });
+
+    $('.pwm-slider').slider({
+    	formatter: function(value) {
+            sendMessage({
+                event: 'led-pwm',
+                data: {
+                    value: value
+                }
+            });
+    	}
     });
 
     // -- JQuery DOM manipulation ------------
