@@ -13,7 +13,7 @@ var startLEDLight = function (setLED) {
 
     var breathingLed = function (now) {
         var cycle = (now - startTime) / BREATHING_CYCLE_IN_MS;
-        return Math.max((Math.sin(cycle)+1)/2, 0);
+        return Math.max((1-Math.sin(cycle))/2, 0);
     };
 
     var blinkingLed = function (now, blinkingFrequencyInMs) {
