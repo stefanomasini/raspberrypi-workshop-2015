@@ -19,8 +19,8 @@ var GPIO_CONFIG_BCM = {
 
 // Function to activate the LED
 var setLEDValue = function (value) {
-    // value = 0 .. 1.0
-    piblaster.setPwm(GPIO_CONFIG_BCM.LED, value);
+    // value = 0 .. 1.0 (self-multiplied to reduce and obtain a better perceived luminosity)
+    piblaster.setPwm(GPIO_CONFIG_BCM.LED, value*value);
 };
 
 // React to button press
@@ -61,6 +61,9 @@ eventEmitter.on('button-down', function () {
 });
 eventEmitter.on('button-up', function () {
     LEDLight.setBlinking(null);
+});
+eventEmitter.on('led-pwm', function (data) {
+    LEDLight.setPWMForAWhile(data.value);
 });
 
 eventEmitter.on('web-button-down', function () {
@@ -109,7 +112,7 @@ io.on('connection', function(socket){
     socket.on('message', function(msg){
         var msg = JSON.parse(msg);
         if (msg.event) {
-            eventEmitter.emit(msg.event);
+            eventEmitter.emit(msg.event, msg.data);
         }
     });
 });

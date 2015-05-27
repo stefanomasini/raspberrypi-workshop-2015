@@ -13,21 +13,21 @@
     // -- JQuery input configuration ------------
 
     $('.led-button').mousedown(function () {
-        sendMessage({event: 'web-button-down'});
+        sendMessage && sendMessage({event: 'web-button-down'});
     }).mouseup(function () {
-        sendMessage({event: 'web-button-up'});
+        sendMessage && sendMessage({event: 'web-button-up'});
     });
 
     $('.temperature-button').click(function () {
-        sendMessage({event: 'read-humidity'});
+        sendMessage && sendMessage({event: 'read-humidity'});
     });
 
     $('.pwm-slider').slider({
     	formatter: function(value) {
-            sendMessage({
+            sendMessage && sendMessage({
                 event: 'led-pwm',
                 data: {
-                    value: value
+                    value: value/100.0
                 }
             });
     	}

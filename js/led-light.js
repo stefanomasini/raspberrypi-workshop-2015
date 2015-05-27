@@ -4,11 +4,13 @@ var UPDATE_FREQUENCY_IN_MS = 3;
 var BREATHING_CYCLE_IN_MS = 500;
 var FAST_BLINKING_FREQUENCY_IN_MS = 20;
 var SLOW_BLINKING_FREQUENCY_IN_MS = 40;
-var TRIGGERED_BLINKING_DURATION_IN_MS = 1000;
+var A_WHILE_IN_MS = 1000;
 
 
 var startLEDLight = function (setLED) {
     var blinkingMode = null;
+    var fixedPwmValue = null;
+    var fixedPwmTimeout = null;
     var startTime = new Date().getTime();
 
     var breathingLed = function (now) {
@@ -23,7 +25,9 @@ var startLEDLight = function (setLED) {
 
     var updateLED = function () {
         var now = new Date().getTime();
-        if (blinkingMode !== null) {
+        if (fixedPwmValue) {
+            setLED(fixedPwmValue);
+        } else if (blinkingMode !== null) {
             setLED(blinkingLed(now, (blinkingMode === 'fast') ? FAST_BLINKING_FREQUENCY_IN_MS : SLOW_BLINKING_FREQUENCY_IN_MS));
         } else {
             setLED(breathingLed(now));
@@ -38,13 +42,23 @@ var startLEDLight = function (setLED) {
             startTime = new Date().getTime();
             setTimeout(function () {
                 blinkingMode = null;
-            }, TRIGGERED_BLINKING_DURATION_IN_MS);
+            }, A_WHILE_IN_MS);
         },
         setBlinking: function (mode) {
             blinkingMode = mode;
             if (mode !== null) {
                 startTime = new Date().getTime();
             }
+        },
+        setPWMForAWhile: function (value) {
+            if (fixedPwmTimeout) {
+                clearTimeout(fixedPwmTimeout);
+            }
+            fixedPwmValue = value;
+            fixedPwmTimeout = setTimeout(function () {
+                fixedPwmValue = null;
+                startTime = new Date().getTime();
+            }, A_WHILE_IN_MS);
         }
     };
 };
